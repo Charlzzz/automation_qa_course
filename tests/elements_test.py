@@ -1,6 +1,6 @@
 import random
 
-from pages.element_page import TextBoxPage, CheckBoxPage, RadioButtonPage, WebTablePage, ButtonsPage
+from pages.element_page import TextBoxPage, CheckBoxPage, RadioButtonPage, WebTablePage, ButtonsPage, LinksPage
 
 
 class TestElement:
@@ -89,6 +89,7 @@ class TestElement:
             count = web_table_page.select_up_to_some_rows()
             assert count == [5, 10, 20, 25, 50, 100], "The number of rows in the table has not been changed or has changed incorrectly"
 
+
     class TestButtonsPage:
 
         def different_click_on_the_buttons(self, driver):
@@ -101,6 +102,19 @@ class TestElement:
             assert right == "You have done a right click", "The right click button was not present"
             assert click == "You have done a dynamic click", "The dynamic click button was not present"
 
+
+    class TestLinksPage:
+
+        def test_check_link(self, driver):
+            links_page = LinksPage(driver, "https://demoqa.com/links")
+            links_page.open()
+            href_link, current_url = links_page.check_new_tab_simple_link()
+            print(href_link, current_url)
+        def test_broken_link(self, driver):
+            links_page = LinksPage(driver, "https://demoqa.com/links")
+            links_page.open()
+            response_code = links_page.check_broken_link("https://demoqa.com/bad-request")
+            assert response_code == 400
 
 
 
