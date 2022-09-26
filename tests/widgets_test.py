@@ -1,6 +1,6 @@
 import time
 
-from pages.widgets_page import AccordianPage, AutoCompletePage, DatePickerPage, SliderPage, ProgressBarPage
+from pages.widgets_page import AccordianPage, AutoCompletePage, DatePickerPage, SliderPage, ProgressBarPage, TabsPage
 
 
 class TestWidgets:
@@ -72,6 +72,24 @@ class TestProgressBarPage:
         progress_bar.open()
         before, after = progress_bar.change_progress_bar_value()
         assert before != after, "The progress  bar value has not been change"
+
+
+class TestTabsPage:
+
+    def test_tabs(self, driver):
+        tabs = TabsPage(driver, "https://demoqa.com/tabs")
+        tabs.open()
+        what_button, what_content = tabs.check_tabs("what")
+        use_button, use_content = tabs.check_tabs("use")
+        origin_button, origin_content = tabs.check_tabs("origin")
+        more_button, more_content = tabs.check_tabs("more")
+
+        assert what_button == "What" and what_content != 0, "the tab was not presssed or the text is missng"
+        assert use_button == "Use" and use_content != 0, "the tab was not presssed or the text is missng"
+        assert origin_button == "Origin" and origin_content != 0, "the tab was not presssed or the text is missng"
+        assert more_button == "More" and what_content != 0, "the tab was not presssed or the text is missng"
+
+#bимитация того что на странице во время тестирвоания нашелся баг и тест упал
 
 
 
