@@ -7,7 +7,8 @@ from selenium.webdriver.support.select import Select
 
 from generator.generator import generated_color, generated_date
 from locators.widgets_locators import AccordianPageLocators, AutoCompletePageLocators, DatePickerPageLocators, \
-    SliderPageLocators, ProgressBarPageLocators, TabsPageLocators, ToolTipsPageLocators, MenuPageLocators
+    SliderPageLocators, ProgressBarPageLocators, TabsPageLocators, ToolTipsPageLocators, MenuPageLocators, \
+    SortablePageLocators
 from pages.base_page import BasePage
 
 
@@ -120,7 +121,7 @@ class SliderPage(BasePage):
     def change_slide_value(self):
         value_before = self.element_is_visible(self.locators.SLIDER_VALUE).get_attribute("value")
         slider_input = self.element_is_visible(self.locators.INPUT_SLIDER)
-        self.action_darg_and_drop_by_offset(slider_input, random.randint(1, 100), 0)
+        self.action_drag_and_drop_by_offset(slider_input, random.randint(1, 100), 0)
         value_after = self.element_is_visible(self.locators.SLIDER_VALUE).get_attribute("value")
         return value_before, value_after
 
@@ -194,6 +195,62 @@ class MenuPage(BasePage):
             # self.element_is_visible(i)
             data.append(i.text)
         return data
+
+
+class SortablePage(BasePage):
+    locators = SortablePageLocators()
+
+    def get_sortable(self, elements):
+        item_list = self.elements_are_visible(elements)
+        return [item.text for item in item_list]
+
+    def change_list(self):
+        self.element_is_visible(self.locators.TAB_LIST).click()
+        order_before = self.get_sortable(self.locators.LIST_ITEM)
+        item_list = random.sample(self.elements_are_visible(self.locators.LIST_ITEM), k=2)
+        item_what = item_list[0]
+        item_where = item_list[1]
+        self.action_drag_and_drop_to_element(item_what, item_where)
+        order_after = self.get_sortable(self.locators.LIST_ITEM)
+        return order_before, order_after
+
+    def change_grid(self):
+        self.element_is_visible(self.locators.TAB_GRID).click()
+        order_before = self.get_sortable(self.locators.GRID_ITEM)
+        item_list = random.sample(self.elements_are_visible(self.locators.GRID_ITEM), k=2)
+        item_what = item_list[0]
+        item_where = item_list[1]
+        self.action_drag_and_drop_to_element(item_what, item_where)
+        order_after = self.get_sortable(self.locators.GRID_ITEM)
+        return order_before, order_after
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

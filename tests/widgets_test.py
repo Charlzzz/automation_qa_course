@@ -1,7 +1,7 @@
 import time
 
 from pages.widgets_page import AccordianPage, AutoCompletePage, DatePickerPage, SliderPage, ProgressBarPage, TabsPage, \
-    ToolTipsPage, MenuPage
+    ToolTipsPage, MenuPage, SortablePage
 
 
 class TestWidgets:
@@ -115,7 +115,16 @@ class TestMenuPage:
 
 
 
+class TestInteractions:
+    class TestSortablePage:
 
+        def test_sortable(self, driver):
+            sortable_page = SortablePage(driver, "https://demoqa.com/sortable")
+            sortable_page.open()
+            list_before, list_after = sortable_page.change_list()
+            grid_before, grid_after = sortable_page.change_grid()
+            assert list_after != list_before, "the order of the list has not been changed"
+            assert grid_after != grid_before, "the order of the grid has not been changed"
 
 
 
