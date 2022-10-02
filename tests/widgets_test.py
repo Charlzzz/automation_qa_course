@@ -1,7 +1,7 @@
 import time
 
 from pages.widgets_page import AccordianPage, AutoCompletePage, DatePickerPage, SliderPage, ProgressBarPage, TabsPage, \
-    ToolTipsPage, MenuPage, SortablePage
+    ToolTipsPage, MenuPage, SortablePage, ResizablePage
 
 
 class TestWidgets:
@@ -125,6 +125,22 @@ class TestInteractions:
             grid_before, grid_after = sortable_page.change_grid()
             assert list_after != list_before, "the order of the list has not been changed"
             assert grid_after != grid_before, "the order of the grid has not been changed"
+
+
+class TestResizablePage:
+
+    def test_resizable(self, driver):
+        resizable_page = ResizablePage(driver, "https://demoqa.com/resizable")
+        resizable_page.open()
+        min_box, max_box = resizable_page.change_size_resizable_box()
+        max_resize, min_resize = resizable_page.change_size_resizable()
+        print(min_box, max_box)
+        print(max_resize, min_resize)
+        assert ('500px', '300px') == max_box, "maximum size not equal to '500px', '300px'"
+        assert ('150px', '150px') == min_box, "maximum size not equal to '150px', '150px'"
+        assert min_resize != max_resize, "resize has not been changed"
+
+
 
 
 
